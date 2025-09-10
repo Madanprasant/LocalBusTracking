@@ -1,0 +1,78 @@
+[
+  {
+    "id": "ERD-101",
+    "routeName": "Perundurai ↔ Erode Central",
+    "origin": "Perundurai",
+    "destination": "Erode Central Bus Stand",
+    "stops": [
+      "Perundurai",
+      "Kangeyam Road",
+      "Nanjanapuram",
+      "GH Roundana",
+      "Erode Central"
+    ],
+    "departureTime": "06:45",
+    "arrivalTime": "07:25",
+    "frequencyMins": 15,
+    "fare": 18,
+    "operator": "TNSTC",
+    "lastUpdated": "2025-09-10T06:30:00Z"
+  },
+  {
+    "id": "ERD-205",
+    "routeName": "Bhavani ↔ Erode Central",
+    "origin": "Bhavani",
+    "destination": "Erode Central Bus Stand",
+    "stops": [
+      "Bhavani",
+      "Komarapalayam Bridge",
+      "Solar",
+      "CAK Town",
+      "Erode Central"
+    ],
+    "departureTime": "07:10",
+    "arrivalTime": "07:50",
+    "frequencyMins": 12,
+    "fare": 22,
+    "operator": "TNSTC",
+    "lastUpdated": "2025-09-10T06:45:00Z"
+  },
+  {
+    "id": "ERD-318",
+    "routeName": "Sathyamangalam ↔ Erode Central",
+    "origin": "Sathyamangalam",
+    "destination": "Erode Central Bus Stand",
+    "stops": [
+      "Sathyamangalam",
+      "Athani",
+      "Arachalur",
+      "Solar",
+      "Erode Central"
+    ],
+    "departureTime": "07:30",
+    "arrivalTime": "08:35",
+    "frequencyMins": 20,
+    "fare": 35,
+    "operator": "TNSTC",
+    "lastUpdated": "2025-09-10T07:00:00Z"
+  },
+  {
+    "id": "ERD-412",
+    "routeName": "Gobichettipalayam ↔ Erode Central",
+    "origin": "Gobichettipalayam",
+    "destination": "Erode Central Bus Stand",
+    "stops": [
+      "Gobi",
+      "Appakudal",
+      "Bhavani",
+      "Solar",
+      "Erode Central"
+    ],
+    "departureTime": "08:00",
+    "arrivalTime": "09:05",
+    "frequencyMins": 15,
+    "fare": 40,
+    "operator": "TNSTC",
+    "lastUpdated": "2025-09-10T07:30:00Z"
+  }
+]
