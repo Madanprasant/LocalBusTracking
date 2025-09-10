@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import BusCard from "../components/BusCard";
-import { favoritesAPI } from "../services/api";
+import data from "../data/tn-bus-data.json";
 
 export default function Favorites() {
   const [favoriteBuses, setFavoriteBuses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const loadFavorites = () => {
       try {
-        const response = await favoritesAPI.getAll();
-        setFavoriteBuses(response.data);
+        const favorites = JSON.parse(localStorage.getItem("erode_favorites") || "[]");
+        const favBuses = data.filter(bus => favorites.includes(bus.id));
+        setFavoriteBuses(favBuses);
       } catch (error) {
         setError("Failed to load favorites");
-        console.error('Failed to fetch favorites:', error);
-      } finally {
-        setLoading(false);
+        console.error('Failed to load favorites:', error);
       }
     };
 
-    fetchFavorites();
+    loadFavorites();
   }, []);
 
-  const toggle = async (busId) => {
+  const toggle = (busId) => {
     try {
-      await favoritesAPI.remove(busId);
+      const favorites = JSON.parse(localStorage.getItem("erode_favorites") || "[]");
+      const newFavorites = favorites.filter(id => id !== busId);
+      localStorage.setItem("erode_favorites", JSON.stringify(newFavorites));
       setFavoriteBuses(prev => prev.filter(bus => bus.id !== busId));
     } catch (error) {
       console.error('Failed to remove favorite:', error);

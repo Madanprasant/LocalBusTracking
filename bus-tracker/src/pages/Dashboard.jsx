@@ -1,74 +1,41 @@
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import BusCard from "../components/BusCard";
-import { busAPI, favoritesAPI } from "../services/api";
+import data from "../data/tn-bus-data.json";
 import { useAuth } from "../context/AuthContext";
 
 function useFavorites() {
-  const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const raw = localStorage.getItem("erode_favorites");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+  
   const { isAuthenticated } = useAuth();
 
-  const fetchFavorites = async () => {
+  const toggle = (busId) => {
     if (!isAuthenticated()) return;
     
-    setLoading(true);
-    try {
-      const response = await favoritesAPI.getAll();
-      setFavorites(response.data.map(bus => bus.id));
-    } catch (error) {
-      console.error('Failed to fetch favorites:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const toggle = async (busId) => {
-    if (!isAuthenticated()) return;
+    const newFavorites = favorites.includes(busId) 
+      ? favorites.filter(id => id !== busId)
+      : [...favorites, busId];
     
-    try {
-      const isFavorite = favorites.includes(busId);
-      if (isFavorite) {
-        await favoritesAPI.remove(busId);
-        setFavorites(prev => prev.filter(id => id !== busId));
-      } else {
-        await favoritesAPI.add(busId);
-        setFavorites(prev => [...prev, busId]);
-      }
-    } catch (error) {
-      console.error('Failed to toggle favorite:', error);
-    }
+    setFavorites(newFavorites);
+    localStorage.setItem("erode_favorites", JSON.stringify(newFavorites));
   };
 
-  useEffect(() => {
-    fetchFavorites();
-  }, [isAuthenticated()]);
-
-  return { favorites, toggle, loading };
+  return { favorites, toggle };
 }
 
 export default function Dashboard() {
   const [q, setQ] = useState("");
-  const [buses, setBuses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [buses, setBuses] = useState(data);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { favorites, toggle } = useFavorites();
-
-  useEffect(() => {
-    const fetchBuses = async () => {
-      try {
-        const response = await busAPI.getAll();
-        setBuses(response.data);
-      } catch (error) {
-        setError("Failed to load buses");
-        console.error('Failed to fetch buses:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBuses();
-  }, []);
 
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
@@ -77,31 +44,9 @@ export default function Dashboard() {
       b.routeName.toLowerCase().includes(term) ||
       b.origin.toLowerCase().includes(term) ||
       b.destination.toLowerCase().includes(term) ||
-      b.stops.map(s => s.name).join(" ").toLowerCase().includes(term)
+      b.stops.join(" ").toLowerCase().includes(term)
     );
   }, [q, buses]);
-
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <div className="center">Loading buses...</div>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Navbar />
-        <div className="center">
-          <div className="card" style={{ color: "#ff6b6b" }}>
-            {error}
-          </div>
-        </div>
-      </>
-    );
-  }
 
   return (
     <>

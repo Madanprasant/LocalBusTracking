@@ -32,7 +32,13 @@ export default function MapView({ bus }) {
   const [isMoving, setIsMoving] = useState(false);
   const intervalRef = useRef(null);
 
-  const routeCoordinates = bus.stops.map(stop => [stop.coordinates.lat, stop.coordinates.lng]);
+  const routeCoordinates = bus.stops.map(stop => {
+    if (typeof stop === 'string') {
+      // Original format - use default coordinates
+      return [11.3100, 77.6300];
+    }
+    return [stop.coordinates.lat, stop.coordinates.lng];
+  });
   
   // Calculate current bus position along the route
   const getCurrentBusPosition = () => {
@@ -99,6 +105,7 @@ export default function MapView({ bus }) {
   const currentBusPos = getCurrentBusPosition();
   const currentStopIndex = Math.floor(currentPosition);
   const currentStop = bus.stops[currentStopIndex];
+  const currentStopName = typeof currentStop === 'string' ? currentStop : currentStop?.name;
 
   return (
     <div className="map-container">
@@ -111,7 +118,7 @@ export default function MapView({ bus }) {
         </button>
         <span className="map-status">
           {isMoving ? "Bus is moving..." : "Bus is stopped"}
-          {currentStop && ` - At: ${currentStop.name}`}
+          {currentStopName && ` - At: ${currentStopName}`}
         </span>
       </div>
       
@@ -139,7 +146,7 @@ export default function MapView({ bus }) {
             <Marker key={index} position={coord}>
               <Popup>
                 <div>
-                  <strong>{bus.stops[index].name}</strong>
+                  <strong>{typeof bus.stops[index] === 'string' ? bus.stops[index] : bus.stops[index]?.name}</strong>
                   <br />
                   Stop {index + 1} of {bus.stops.length}
                 </div>
@@ -155,7 +162,7 @@ export default function MapView({ bus }) {
                 <br />
                 {bus.routeName}
                 <br />
-                {currentStop ? `At: ${currentStop.name}` : 'Moving...'}
+                {currentStopName ? `At: ${currentStopName}` : 'Moving...'}
               </div>
             </Popup>
           </Marker>

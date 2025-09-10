@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
-import { busAPI } from "../services/api";
+import data from "../data/tn-bus-data.json";
 
 export default function AdminPanel() {
-  const [routes, setRoutes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [routes, setRoutes] = useState(data);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     id: "",
@@ -19,22 +19,6 @@ export default function AdminPanel() {
     stops: ""
   });
 
-  useEffect(() => {
-    const fetchBuses = async () => {
-      try {
-        const response = await busAPI.getAll();
-        setRoutes(response.data);
-      } catch (error) {
-        setError("Failed to load buses");
-        console.error('Failed to fetch buses:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBuses();
-  }, []);
-
   const isEdit = useMemo(() => routes.some((r) => r.id === form.id), [routes, form.id]);
 
   function handleChange(e) {
@@ -42,7 +26,7 @@ export default function AdminPanel() {
     setForm((f) => ({ ...f, [name]: value }));
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     setError("");
     
@@ -51,18 +35,13 @@ export default function AdminPanel() {
         ...form,
         frequencyMins: Number(form.frequencyMins) || 10,
         fare: Number(form.fare) || 10,
-        stops: (form.stops || "").split(",").map((s) => s.trim()).filter(Boolean).map(name => ({
-          name,
-          coordinates: { lat: 11.3100, lng: 77.6300 } // Default coordinates, should be updated
-        }))
+        stops: (form.stops || "").split(",").map((s) => s.trim()).filter(Boolean)
       };
 
       if (isEdit) {
-        await busAPI.update(form.id, payload);
         setRoutes(prev => prev.map(r => r.id === form.id ? { ...r, ...payload } : r));
       } else {
-        const response = await busAPI.create(payload);
-        setRoutes(prev => [response.data, ...prev]);
+        setRoutes(prev => [payload, ...prev]);
       }
       
       setForm({
@@ -78,25 +57,24 @@ export default function AdminPanel() {
         stops: ""
       });
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to save bus");
+      setError("Failed to save bus");
     }
   }
 
-  async function handleDelete(busId) {
+  function handleDelete(busId) {
     if (!window.confirm("Are you sure you want to delete this bus?")) return;
     
     try {
-      await busAPI.delete(busId);
       setRoutes(prev => prev.filter(r => r.id !== busId));
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to delete bus");
+      setError("Failed to delete bus");
     }
   }
 
   function handleEdit(route) {
     setForm({
       ...route,
-      stops: route.stops.map(s => s.name).join(", ")
+      stops: Array.isArray(route.stops) && route.stops[0]?.name ? route.stops.map(s => s.name).join(", ") : route.stops.join(", ")
     });
   }
 

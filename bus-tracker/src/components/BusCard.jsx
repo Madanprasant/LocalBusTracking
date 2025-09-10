@@ -25,7 +25,7 @@ export default function BusCard({ bus, onToggleFavorite, isFavorite }) {
       </div>
       <AlertCard minutes={minutes} />
       <div className="stops">
-        <strong>Stops:</strong> <span>{bus.stops.map(s => s.name).join(", ")}</span>
+        <strong>Stops:</strong> <span>{Array.isArray(bus.stops) && bus.stops[0]?.name ? bus.stops.map(s => s.name).join(", ") : bus.stops.join(", ")}</span>
       </div>
       <div className="bus-actions">
         <button className="btn" onClick={() => setShowMap(!showMap)}>
