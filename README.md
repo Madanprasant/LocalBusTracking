@@ -1,17 +1,26 @@
-# Erode Local Bus Tracker
+# 🚌 Erode Local Bus Tracker
 
 A full-stack web application for tracking local buses in Erode, Tamil Nadu. Built with React frontend and Node.js/Express backend with MongoDB.
 
-## Features
+## 🚀 Features
 
+### ✅ Implemented Features
 - **Public Dashboard**: View all available bus routes with real-time arrival estimates
 - **User Authentication**: Sign up/Login with JWT tokens
 - **Favorites**: Save favorite bus routes (requires login)
 - **Admin Panel**: CRUD operations for bus routes (admin only)
 - **Live Map Tracking**: Interactive maps with simulated bus movement using react-leaflet
 - **Responsive Design**: Clean UI with dark theme
+- **Real-time Bus Simulation**: Start/stop bus movement with arrival predictions
 
-## Tech Stack
+### 🔮 Future Roadmap
+- 📱 Driver app with GPS tracking (React Native)
+- 📍 Live GPS tracking integration
+- 👥 Bus occupancy info (crowded / free marking)
+- ⏲️ AI-based delay predictions
+- 🔔 Push notifications for bus arrivals
+
+## 🛠️ Tech Stack
 
 ### Frontend
 - React 18 with Vite
@@ -28,7 +37,7 @@ A full-stack web application for tracking local buses in Erode, Tamil Nadu. Buil
 - bcryptjs for password hashing
 - CORS enabled
 
-## Setup Instructions
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -71,7 +80,7 @@ node seed.js
 
 6. Start the backend server:
 ```bash
-npm run dev
+npm start
 ```
 
 The backend will run on `http://localhost:5000`
@@ -86,7 +95,6 @@ cd LocalBusTracking/bus-tracker
 2. Install dependencies:
 ```bash
 npm install
-npm install react-leaflet leaflet
 ```
 
 3. Start the development server:
@@ -96,7 +104,7 @@ npm run dev
 
 The frontend will run on `http://localhost:5173`
 
-## API Endpoints
+## 📡 API Endpoints
 
 ### Authentication
 - `POST /api/auth/signup` - Create new user
@@ -115,7 +123,7 @@ The frontend will run on `http://localhost:5173`
 - `POST /api/favorites/:busId` - Add to favorites (protected)
 - `DELETE /api/favorites/:busId` - Remove from favorites (protected)
 
-## Usage
+## 🎯 Usage
 
 1. **Public Access**: Visit the dashboard to view all bus routes without login
 2. **User Registration**: Create an account to access favorites
@@ -124,41 +132,38 @@ The frontend will run on `http://localhost:5173`
 5. **Live Tracking**: Click "View Route" to see the map with simulated bus movement
 6. **Admin Panel**: Manage bus routes (add, edit, delete)
 
-## Default Admin User
-
-To create an admin user, you can either:
-1. Use the signup form and manually set role to "admin" in the database
-2. Or modify the signup endpoint to allow role selection
-
-## Map Features
+## 🗺️ Map Features
 
 - Interactive OpenStreetMap integration
 - Route visualization with polylines
 - Bus stop markers with popups
 - Simulated bus movement with start/stop controls
 - Real-time position updates
+- Custom bus icons and styling
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 LocalBusTracking/
 ├── backend/
-│   ├── models/          # MongoDB models
-│   ├── routes/          # API routes
+│   ├── models/          # MongoDB models (User, Bus)
+│   ├── routes/          # API routes (auth, buses, favorites)
 │   ├── middleware/      # Auth middleware
 │   ├── server.js        # Express server
 │   └── seed.js          # Database seeder
-└── bus-tracker/
-    ├── src/
-    │   ├── components/  # React components
-    │   ├── pages/       # Page components
-    │   ├── context/     # React context
-    │   ├── services/    # API services
-    │   └── utils/       # Utility functions
-    └── package.json
+├── bus-tracker/
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── pages/       # Page components
+│   │   ├── context/     # React context (Auth)
+│   │   ├── services/    # API services
+│   │   ├── utils/       # Utility functions
+│   │   └── assets/      # Images and icons
+│   └── package.json
+└── .gitignore
 ```
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -166,6 +171,10 @@ LocalBusTracking/
 4. Test thoroughly
 5. Submit a pull request
 
-## License
+## 📄 License
 
 This project is open source and available under the MIT License.
+
+---
+
+**Built with ❤️ for the Erode community**
