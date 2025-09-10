@@ -19,7 +19,7 @@ const busIcon = new L.Icon({
       <rect x="5" y="8" width="14" height="8" fill="#ffffff"/>
       <circle cx="7" cy="16" r="1.5" fill="#333"/>
       <circle cx="17" cy="16" r="1.5" fill="#333"/>
-      <text x="12" y="13" text-anchor="middle" font-size="8" fill="#333">🚌</text>
+      <text x="12" y="13" text-anchor="middle" font-size="8" fill="#333">BUS</text>
     </svg>
   `),
   iconSize: [24, 24],

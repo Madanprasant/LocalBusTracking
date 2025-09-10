@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { authAPI } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -16,18 +17,12 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    // Simulate auth check without backend
+    // Check authentication with backend
     const initAuth = async () => {
       if (token) {
         try {
-          // Mock user data for demo
-          const mockUser = {
-            id: '1',
-            username: 'demo_user',
-            role: 'user',
-            favorites: []
-          };
-          setUser(mockUser);
+          const response = await authAPI.getMe();
+          setUser(response.data);
         } catch (error) {
           console.error('Auth check failed:', error);
           localStorage.removeItem('token');
@@ -42,48 +37,36 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      // Mock login for demo
-      const mockToken = 'demo_token_' + Date.now();
-      const mockUser = {
-        id: '1',
-        username: username,
-        role: username === 'admin' ? 'admin' : 'user',
-        favorites: []
-      };
+      const response = await authAPI.login(username, password);
+      const { token: authToken, user: userData } = response.data;
       
-      localStorage.setItem('token', mockToken);
-      setToken(mockToken);
-      setUser(mockUser);
+      localStorage.setItem('token', authToken);
+      setToken(authToken);
+      setUser(userData);
       
       return { success: true };
     } catch (error) {
       return { 
         success: false, 
-        message: 'Login failed' 
+        message: error.response?.data?.message || 'Login failed' 
       };
     }
   };
 
   const signup = async (username, password, role = 'user') => {
     try {
-      // Mock signup for demo
-      const mockToken = 'demo_token_' + Date.now();
-      const mockUser = {
-        id: '1',
-        username: username,
-        role: role,
-        favorites: []
-      };
+      const response = await authAPI.signup(username, password, role);
+      const { token: authToken, user: userData } = response.data;
       
-      localStorage.setItem('token', mockToken);
-      setToken(mockToken);
-      setUser(mockUser);
+      localStorage.setItem('token', authToken);
+      setToken(authToken);
+      setUser(userData);
       
       return { success: true };
     } catch (error) {
       return { 
         success: false, 
-        message: 'Signup failed' 
+        message: error.response?.data?.message || 'Signup failed' 
       };
     }
   };
