@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Favorites from "./pages/Favorites";
 import AdminPanel from "./pages/AdminPanel";
+import BusTracking from "./pages/BusTracking";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
@@ -42,6 +43,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute requireAdmin={true}>
             <AdminPanel />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/buses/:busId/track" 
+        element={
+          <ProtectedRoute>
+            <BusTracking />
           </ProtectedRoute>
         } 
       />

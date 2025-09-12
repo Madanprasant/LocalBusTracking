@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AlertCard from "./AlertCard";
 import MapView from "./MapView";
 import { getMinutesUntilDeparture, formatTimeRange } from "../utils/arrivalUtils";
 
 export default function BusCard({ bus, onToggleFavorite, isFavorite }) {
+  const navigate = useNavigate();
   const [showMap, setShowMap] = useState(false);
   const minutes = getMinutesUntilDeparture(bus.departureTime);
   
@@ -30,6 +32,13 @@ export default function BusCard({ bus, onToggleFavorite, isFavorite }) {
       <div className="bus-actions">
         <button className="btn" onClick={() => setShowMap(!showMap)}>
           {showMap ? "Hide Route" : "View Route"}
+        </button>
+        <button 
+          className="btn btn-primary" 
+          onClick={() => navigate(`/buses/${bus.id}/track`)}
+          style={{ marginLeft: '8px' }}
+        >
+          Track Bus
         </button>
       </div>
       {showMap && <MapView bus={bus} />}

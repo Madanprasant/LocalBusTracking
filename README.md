@@ -9,17 +9,40 @@ A full-stack web application for tracking local buses in Erode, Tamil Nadu. Buil
 - **User Authentication**: Sign up/Login with JWT tokens
 - **Favorites**: Save favorite bus routes (requires login)
 - **Admin Panel**: CRUD operations for bus routes (admin only)
-- **Live Map Tracking**: Interactive maps with simulated bus movement using react-leaflet
+- **Live Map Tracking**: Interactive maps with real-time bus movement using react-leaflet
+- **Real-time ETAs**: Estimated time of arrival for each stop
+- **Driver Simulation**: Simulate bus movement for testing
 - **Responsive Design**: Clean UI with dark theme
+
+## How to Use
+
+### For Passengers
+1. **View Bus Routes**: Browse available routes on the home page
+2. **Track a Bus**: Click on any bus to see its current location and route
+3. **View ETAs**: Check estimated arrival times for upcoming stops
+4. **Save Favorites**: Log in to save your frequently used routes
+
+### For Drivers
+1. **Start Simulation**: Go to a bus details page and start the simulation
+2. **Adjust Speed**: Use the slider to set the desired speed
+3. **Monitor Progress**: Watch the bus move along its route in real-time
+4. **View ETAs**: See how speed changes affect arrival times
+
+### For Admins
+1. **Manage Routes**: Add, edit, or remove bus routes
+2. **Monitor Buses**: Track all active buses in real-time
+3. **Update Schedules**: Modify departure and arrival times (admin only)
 
 ## Tech Stack
 
 ### Frontend
-- React 18 with Vite
-- React Router for navigation
+- React 19 with Vite
+- React Router v7 for navigation
 - React Context for state management
 - Axios for API calls
-- React Leaflet for maps
+- React Leaflet v5 for maps
+- Geolib for distance calculations
+- Date-fns for date/time formatting
 - Custom CSS styling
 
 ### Backend
@@ -27,6 +50,7 @@ A full-stack web application for tracking local buses in Erode, Tamil Nadu. Buil
 - MongoDB with Mongoose
 - JWT authentication
 - bcryptjs for password hashing
+- Geolib for distance calculations
 - CORS enabled
 
 ## Setup Instructions
@@ -96,6 +120,26 @@ npm run dev
 ```
 
 
+
+## New Live Tracking Features
+
+### Real-time Bus Tracking
+- Live bus location updates every 5 seconds
+- Smooth bus movement animation on the map
+- Current speed and direction indicators
+- Last updated timestamp
+
+### ETA Calculation
+- Real-time ETA calculation for each stop
+- Considers current traffic conditions (simulated)
+- Updates automatically as the bus moves
+- Displays in HH:MM AM/PM format
+
+### Driver Simulation
+- Simulate bus movement along predefined routes
+- Adjustable speed (10-120 km/h)
+- Realistic movement with proper bearing calculation
+- Loop back to start when route is completed
 
 ## API Endpoints
 

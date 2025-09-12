@@ -23,7 +23,28 @@ const busSchema = new mongoose.Schema({
     coordinates: {
       lat: Number,
       lng: Number
-    }
+    },
+    passed: {
+      type: Boolean,
+      default: false
+    },
+    etas: [{
+      timestamp: Date,
+      eta: String
+    }]
+  }],
+  currentLocation: {
+    coordinates: {
+      lat: Number,
+      lng: Number
+    },
+    lastUpdated: Date,
+    bearing: Number,
+    speed: Number // in km/h
+  },
+  path: [{
+    lat: Number,
+    lng: Number
   }],
   departureTime: {
     type: String,
@@ -48,6 +69,11 @@ const busSchema = new mongoose.Schema({
   operator: {
     type: String,
     required: true
+  },
+  averageSpeed: {
+    type: Number,
+    default: 40, // Default average speed in km/h
+    min: 1
   },
   isActive: {
     type: Boolean,
